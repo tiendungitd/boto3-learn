@@ -2,16 +2,16 @@ import boto3
 session=boto3.session.session()
 ec2_client=session.client(service_name="ec2", region_name="us-east-1")
 all_region=[]
-for each_region in ec2.client.describe_region()['Regions']:
-   all_regions.append(each_region.get('RegionName'))
-for each_region in all_regions:
+for each_region in ec2_client.describe_region()['Regions']:
+   all_region.append(each_region.get('RegionName'))
+for each_region in all_region:
    print("working on{}".format(each_region))
    ec2_client=session.client(service_name="ec2", region_name=each_region)
    list_of_volids=[]
    f_prod_bkp={'Name':'tag:Prod','Values':['backup','Backup']}
-   paginator = ec2_client.get_paginator(describe_volumes)
+   paginator = ec2_client.get_paginator("describe_volumes")
    for each_page in paginator.paginate(Filters=[f_prod_bkp])
-      for each_vol in each_page['Volumes']
+      for each_vol in each_page['Volumes']:
 	     list_of_volids.append(each_vol['VolumeId'])
 	print ("The list of volds are {}".format(list_of_volids))
 	if bool(list_of_volids)==False:
